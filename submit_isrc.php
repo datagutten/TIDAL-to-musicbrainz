@@ -1,11 +1,11 @@
 <?php	
-require '../musicbrainz/musicbrainz.class.php';
+require 'musicbrainz/musicbrainz.class.php';
 $mb=new musicbrainz;
-require_once '../TIDALtools/tidalinfo.class.php';
+require_once 'TIDALtools/tidalinfo.class.php';
 $tidal=new tidalinfo;
 
 if(empty($argv[1]) || empty($argv[2]))
-	die('Usage: batch_submit_isrc.php [release MBID] [TIDAL Album ID or URL]'."\n");
+	die('Usage: submit_isrc.php [release MBID] [TIDAL Album ID or URL]'."\n");
 
 $album_isrc=$tidal->album_isrc($argv[2]); //Fetch ISRCs for the album from TIDAL
 if($album_isrc===false)
@@ -22,5 +22,4 @@ if($isrc_list===false)
 	die($mb->error."\n");
 
 $result=$mb->send_isrc_list($isrc_list);
-		
 echo $mb->error."\n";

@@ -36,7 +36,10 @@ foreach($releases->artist->{'release-list'}->release as $release)
 		}
 		//Missing barcode, check other fields
 		if((string)$release->title!==$album['title'])
+		{
+			echo "Matching ".(string)$release->title." by name\n";
 			continue;
+		}
 	}
 	if(!empty($match))
 	{

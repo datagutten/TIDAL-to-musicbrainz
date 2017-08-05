@@ -14,7 +14,7 @@ $release=$mb->getrelease($argv[1],'recordings');
 if($release===false)
 	die($mb->error."\n");
 $albuminfo=$tidal->album($argv[2]); //Get album info for verification
-if((string)$release->release->title!==$albuminfo['title'] && (empty($argv[3]) || $argv[3]!='ignore'))
+if(strtolower((string)$release->release->title)!==strtolower($albuminfo['title']) && (empty($argv[3]) || $argv[3]!='ignore'))
 	die(sprintf("Titles does not match:\nTIDAL: %s\nMusicBrainz: %s\n",$albuminfo['title'],(string)$release->release->title));
 
 $isrc_list=$mb->build_isrc_list($album_isrc,$release);

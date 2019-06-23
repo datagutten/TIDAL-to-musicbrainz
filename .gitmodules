@@ -1,6 +1,0 @@
-[submodule "musicbrainz"]
-	path = musicbrainz
-	url = https://github.com/datagutten/musicbrainz.git
-[submodule "TIDALtools"]
-	path = TIDALtools
-	url = https://github.com/datagutten/TIDALtools.git

@@ -1,0 +1,23 @@
+{
+    "name": "datagutten/tidal-to-musicbrainz",
+    "description": "Fetch info from TIDAL and add to musicbrainz",
+    "type": "project",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "datagutten",
+            "email": "datagutten@datagutten.net"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "datagutten/tidal-tools": "^2.3",
+        "datagutten/musicbrainz": "^2.0",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "datagutten\\tidal_musicbrainz\\": "src"
+        }
+    }
+}

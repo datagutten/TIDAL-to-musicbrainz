@@ -7,9 +7,13 @@ $tidal=$info=new tidalinfo;
 if(empty($argv[1]))
 	die('Usage: batch_submit_isrc.php [artist MBID]'."\n");
 
-$releases=$mb->api_request(sprintf('/artist/%s?inc=releases',$argv[1]));
-if($releases===false)
-	die($mb->error."\n");
+try {
+    $releases = $mb->api_request(sprintf('/artist/%s?inc=releases', $argv[1]));
+}
+catch (MusicBrainzException $e)
+{
+    die('Error from MusicBrainz: '. $e->getMessage()."\n");
+}
 
 foreach($releases->artist->{'release-list'}->release as $release)
 {

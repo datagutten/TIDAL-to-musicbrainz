@@ -27,6 +27,7 @@ catch (MusicBrainzException $e)
 
 foreach($releases->artist->{'release-list'}->release as $release)
 {
+	printf("MB release: %s\n",$release->title);
 	$response=$info->query(sprintf('https://api.tidal.com/v1/search?query=%s&limit=3&offset=0&types=ALBUMS&countryCode=NO',urlencode($release->title)));
 	if($response===false)
 		die($info->error."\n");
@@ -34,6 +35,7 @@ foreach($releases->artist->{'release-list'}->release as $release)
 
 	foreach($results['albums']['items'] as $album)
 	{
+		echo "\t".$album['title']."\n";
 		if(!empty($release->barcode) && !empty($album['upc']))
 		{
 			if((int)$release->barcode===(int)$album['upc'])

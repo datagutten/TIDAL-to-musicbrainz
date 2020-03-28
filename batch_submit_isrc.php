@@ -1,8 +1,9 @@
 <?Php
+
+use datagutten\Tidal;
 require 'vendor/autoload.php';
 $mb=new musicbrainz;
-require_once 'TIDALtools/tidalinfo.class.php';
-$tidal=$info=new tidalinfo;
+$tidal=$info=new Tidal\Info();
 
 if(empty($argv[1]))
 	die('Usage: batch_submit_isrc.php [artist MBID]'."\n");

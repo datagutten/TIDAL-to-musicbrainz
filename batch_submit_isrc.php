@@ -4,6 +4,12 @@ use datagutten\Tidal;
 require 'vendor/autoload.php';
 $mb=new musicbrainz;
 $tidal=$info=new Tidal\Info();
+try {
+	$info->token = Tidal\Info::get_token();
+}
+catch (Tidal\TidalError $e) {
+	die($e->getMessage());
+}
 
 if(empty($argv[1]))
 	die('Usage: batch_submit_isrc.php [artist MBID]'."\n");

@@ -1,5 +1,5 @@
 <?Php
-require 'musicbrainz/musicbrainz.class.php';
+require 'vendor/autoload.php';
 $mb=new musicbrainz;
 require_once 'TIDALtools/tidalinfo.class.php';
 $tidal=$info=new tidalinfo;

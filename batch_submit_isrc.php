@@ -29,19 +29,19 @@ foreach($releases->artist->{'release-list'}->release as $release)
 			if((int)$release->barcode===(int)$album['upc'])
 			{
 				$match=$album;
-				echo sprintf("UPC match, %d on musicbrainz, %d on TIDAL\n",$release->barcode,$album['upc']);
+				echo sprintf("\t\tUPC match, %d on musicbrainz, %d on TIDAL\n",$release->barcode,$album['upc']);
 				break;
 			}
 			else
 			{
-				echo sprintf("UPC mismatch, %d on musicbrainz, %d on TIDAL\n",$release->barcode,$album['upc']);
+				echo sprintf("\t\tUPC mismatch, %d on musicbrainz, %d on TIDAL\n",$release->barcode,$album['upc']);
 				continue;
 			}
 		}
 		//Missing barcode, check other fields
 		if((string)$release->title!==$album['title'])
 		{
-			echo "Matching ".(string)$release->title." by name\n";
+			echo "\tMatching ".(string)$release->title." by name\n";
 			continue;
 		}
 	}

@@ -28,10 +28,15 @@ catch (MusicBrainzException $e)
 foreach($releases->artist->{'release-list'}->release as $release)
 {
 	printf("MB release: %s\n",$release->title);
-	$response=$info->query(sprintf('https://api.tidal.com/v1/search?query=%s&limit=3&offset=0&types=ALBUMS&countryCode=NO',urlencode($release->title)));
-	if($response===false)
-		die($info->error."\n");
-	$results=$info->parse_response($response);
+	try {
+		$response = $info->query(sprintf('https://api.tidal.com/v1/search?query=%s&limit=3&offset=0&types=ALBUMS&countryCode=NO', urlencode($release->title)));
+		$results = $info->parse_response($response);
+	}
+	catch (Tidal\TidalError $e)
+	{
+		printf("Error from tidal: %s\n", $e->getMessage());
+		continue;
+	}
 
 	foreach($results['albums']['items'] as $album)
 	{

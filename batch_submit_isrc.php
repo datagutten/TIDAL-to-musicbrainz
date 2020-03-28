@@ -1,9 +1,12 @@
 <?Php
 
 use datagutten\Tidal;
+use datagutten\tidal_musicbrainz\TIDAL_to_musicbrainz;
+
 require 'vendor/autoload.php';
 $mb=new musicbrainz;
-$tidal=$info=new Tidal\Info();
+$tidal_to_mb = new TIDAL_to_musicbrainz();
+$tidal=$info=$tidal_to_mb->tidal;
 try {
 	$info->token = Tidal\Info::get_token();
 }
@@ -54,26 +57,15 @@ foreach($releases->artist->{'release-list'}->release as $release)
 	}
 	if(!empty($match))
 	{
-		echo "MB title: ".$release->title."\n";
-		$album_isrc=$tidal->album_isrc($album['id']); //Fetch ISRCs for the album from TIDAL
-		$release=$mb->getrelease((string)$release->attributes()['id'],'recordings');
-		if($release===false)
-		{
-			echo $mb->error."\n";
-			continue;
-		}
-		$isrc_list=$mb->build_isrc_list($album_isrc,$release);
-		if($isrc_list===false)
-		{
-			echo $mb->error."\n";
-			continue;
-		}
-
-		$result=$mb->send_isrc_list($isrc_list);
-		
-		echo $mb->error."\n";
-		if($result===false)
-			break;
+		echo "MB title: ".$release->{'title'}."\n";
+		try {
+            $tidal_to_mb->submit_isrc((string)$release->attributes()['id'], $album['id']);
+        }
+        catch (Exception $e)
+        {
+            echo $e->getMessage()."\n";
+            continue;
+        }
 
 		$match=false;
 	}

@@ -1,10 +1,11 @@
 <?Php
 
+use datagutten\musicbrainz;
 use datagutten\Tidal;
 use datagutten\tidal_musicbrainz\TIDAL_to_musicbrainz;
 
 require 'vendor/autoload.php';
-$mb=new musicbrainz;
+$mb=new musicbrainz\musicbrainz;
 $tidal_to_mb = new TIDAL_to_musicbrainz();
 $tidal=$info=$tidal_to_mb->tidal;
 try {
@@ -20,7 +21,7 @@ if(empty($argv[1]))
 try {
     $releases = $mb->api_request(sprintf('/artist/%s?inc=releases', $argv[1]));
 }
-catch (MusicBrainzException $e)
+catch (musicbrainz\exceptions\MusicBrainzException $e)
 {
     die('Error from MusicBrainz: '. $e->getMessage()."\n");
 }

@@ -6,8 +6,7 @@ namespace datagutten\tidal_musicbrainz;
 
 use datagutten\Tidal;
 use Exception;
-use musicbrainz;
-use MusicBrainzException;
+use datagutten\musicbrainz;
 use Requests_Exception;
 
 class TIDAL_to_musicbrainz
@@ -17,14 +16,14 @@ class TIDAL_to_musicbrainz
 	 */
 	public $tidal;
 	/**
-	 * @var musicbrainz
+	 * @var musicbrainz\musicbrainz
 	 */
 	public $mb;
 
 	function __construct()
 	{
 		$this->tidal=new Tidal\Info();
-		$this->mb=new musicbrainz;
+		$this->mb=new musicbrainz\musicbrainz;
 	}
 
 	/**
@@ -56,7 +55,7 @@ class TIDAL_to_musicbrainz
 
 			return $this->mb->send_isrc_list($isrc_list);
 		}
-		catch (MusicBrainzException $e)
+		catch (musicbrainz\exceptions\MusicBrainzException $e)
 		{
 			throw new Exception('Error from MusicBrainz: '.$e->getMessage());
 		}

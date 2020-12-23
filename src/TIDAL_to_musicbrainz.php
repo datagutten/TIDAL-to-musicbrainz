@@ -4,6 +4,7 @@
 namespace datagutten\tidal_musicbrainz;
 
 
+use Composer\InstalledVersions;
 use datagutten\Tidal;
 use Exception;
 use datagutten\musicbrainz;
@@ -19,11 +20,16 @@ class TIDAL_to_musicbrainz
 	 * @var musicbrainz\musicbrainz
 	 */
 	public $mb;
+    /**
+     * @var string Project version
+     */
+    public $version;
 
-	function __construct()
+    function __construct()
 	{
 		$this->tidal=new Tidal\Info();
 		$this->mb=new musicbrainz\musicbrainz;
+        $this->version = InstalledVersions::getVersion('datagutten/tidal-to-musicbrainz');
 	}
 
 	/**

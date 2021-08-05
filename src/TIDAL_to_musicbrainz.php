@@ -83,4 +83,47 @@ class TIDAL_to_musicbrainz
         $album_obj = Album::from_tidal($tidal_id);
         return $this->submit_isrc_obj($album_mbid, $album_obj);
 	}
+
+    /**
+     * Identify track by ISRC
+     * @param Tidal\elements\Track $track
+     * @param bool $strict_name Only return recordings with exact name match
+     * @return array MBID and what source was used to identify the track
+     * @throws TIDAL_to_musicbrainzException
+     * @throws musicbrainz\exceptions\MusicBrainzErrorException
+     */
+    public function identify_track(Track $track, bool $strict_name = false): array
+    {
+        if(!empty($track->isrc))
+        {
+            try
+            {
+                //$result = $this->mb->lookup_isrc_cache($track->isrc);
+                $result = $this->mb->lookup_isrc($track->isrc, 'artists');
+                foreach ($result['recordings'] as $recording)
+                {
+                    if(strcasecmp($recording['title'], $track->title)===0)
+                    {
+                        $recording_obj = $this->mb->recordingFromMBID($recording['id']);
+                        return [$recording_obj, 'ISRC and title exact match'];
+                    }
+                }
+                if(!$strict_name && !empty($recording))
+                {
+                    $recording_obj = $this->mb->recordingFromMBID($recording['id']);
+                    return [$recording_obj, 'ISRC'];
+                }
+                else
+                    throw new TIDAL_to_musicbrainzException('Unable to find matching recording for ISRC');
+            }
+            catch (musicbrainz\exceptions\NotFound $e)
+            {
+                $msg = sprintf('Unable to find recording for ISRC %s: %s', $track->isrc, $e->getMessage());
+                throw new TIDAL_to_musicbrainzException($msg, 0, $e);
+            }
+        }
+        else
+            throw new TIDAL_to_musicbrainzException('Unable to identify track');
+    }
+
 }

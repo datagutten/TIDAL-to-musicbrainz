@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=7.1",
-        "datagutten/tidal-tools": "^2.3",
+        "datagutten/tidal-tools": "^3.1",
         "datagutten/musicbrainz": "^2.0",
         "ext-curl": "*"
     },

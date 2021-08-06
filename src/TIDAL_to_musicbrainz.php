@@ -72,7 +72,7 @@ class TIDAL_to_musicbrainz
      * Identify track by ISRC
      * @param Tidal\elements\Track $track
      * @param bool $strict_name Only return recordings with exact name match
-     * @return array MBID and what source was used to identify the track
+     * @return array<musicbrainz\objects\Recording,string> Recording object and what source was used to identify the track
      * @throws TIDAL_to_musicbrainzException
      * @throws musicbrainz\exceptions\MusicBrainzErrorException
      */

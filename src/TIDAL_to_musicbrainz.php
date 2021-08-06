@@ -7,7 +7,6 @@ namespace datagutten\tidal_musicbrainz;
 use Composer\InstalledVersions;
 use datagutten\musicbrainz;
 use datagutten\Tidal;
-use datagutten\tools\files\files;
 
 class TIDAL_to_musicbrainz
 {
@@ -26,7 +25,7 @@ class TIDAL_to_musicbrainz
 
     function __construct()
 	{
-		$this->tidal=new Tidal\Info();
+        $this->tidal = new Tidal\Tidal();
 		$this->mb=new musicbrainz\musicbrainz;
         $this->version = InstalledVersions::getVersion('datagutten/tidal-to-musicbrainz');
 	}
@@ -68,20 +67,6 @@ class TIDAL_to_musicbrainz
         $isrc_list = musicbrainz\musicbrainz::build_isrc_list_array($isrc);
         return $this->mb->send_isrc_list($isrc_list, 'datagutten/tidal-to-musicbrainz-'.$this->version);
     }
-
-	/**
-	 * Fetch ISRC from TIDAL and submit to MusicBrainz
-	 * @param string $album_mbid Album MBID
-	 * @param string $tidal_id Tidal ID or URL
-	 * @throws Exception
-     * @deprecated Use submit_isrc_obj
-	 * @return array
-	 */
-	function submit_isrc(string $album_mbid,string $tidal_id)
-	{
-        $album_obj = Album::from_tidal($tidal_id);
-        return $this->submit_isrc_obj($album_mbid, $album_obj);
-	}
 
     /**
      * Identify track by ISRC

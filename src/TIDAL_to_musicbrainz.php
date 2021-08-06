@@ -97,19 +97,18 @@ class TIDAL_to_musicbrainz
         {
             try
             {
-                //$result = $this->mb->lookup_isrc_cache($track->isrc);
-                $result = $this->mb->lookup_isrc($track->isrc, 'artists');
-                foreach ($result['recordings'] as $recording)
+                $recordings = $this->mb->recordingsFromISRC($track->isrc, ['artists']);
+                foreach ($recordings as $recording)
                 {
                     if(strcasecmp($recording['title'], $track->title)===0)
                     {
+                        //Re-fetch recording to get more data
                         $recording_obj = $this->mb->recordingFromMBID($recording['id']);
                         return [$recording_obj, 'ISRC and title exact match'];
                     }
                 }
-                if(!$strict_name && !empty($recording))
+                if (!$strict_name && !empty($recording_obj))
                 {
-                    $recording_obj = $this->mb->recordingFromMBID($recording['id']);
                     return [$recording_obj, 'ISRC'];
                 }
                 else

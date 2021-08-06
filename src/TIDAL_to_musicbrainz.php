@@ -23,10 +23,10 @@ class TIDAL_to_musicbrainz
      */
     public string $version;
 
-    function __construct()
+    function __construct($config = [])
 	{
         $this->tidal = new Tidal\Tidal();
-		$this->mb=new musicbrainz\musicbrainz;
+		$this->mb=new musicbrainz\musicbrainz($config);
         $this->version = InstalledVersions::getVersion('datagutten/tidal-to-musicbrainz');
 	}
 

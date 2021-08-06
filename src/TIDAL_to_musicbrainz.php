@@ -5,25 +5,24 @@ namespace datagutten\tidal_musicbrainz;
 
 
 use Composer\InstalledVersions;
-use datagutten\Tidal;
-use Exception;
 use datagutten\musicbrainz;
-use Requests_Exception;
+use datagutten\Tidal;
+use datagutten\tools\files\files;
 
 class TIDAL_to_musicbrainz
 {
-	/**
-	 * @var Tidal\Info
-	 */
-	public $tidal;
-	/**
-	 * @var musicbrainz\musicbrainz
-	 */
-	public $mb;
+    /**
+     * @var Tidal\Tidal
+     */
+    public Tidal\Tidal $tidal;
+    /**
+     * @var musicbrainz\musicbrainz
+     */
+    public musicbrainz\musicbrainz $mb;
     /**
      * @var string Project version
      */
-    public $version;
+    public string $version;
 
     function __construct()
 	{
@@ -41,7 +40,7 @@ class TIDAL_to_musicbrainz
      * @throws TIDAL_to_musicbrainzException
      * @throws musicbrainz\exceptions\MusicBrainzException
      */
-    function submit_isrc_obj(string $album_mbid, Tidal\elements\Album $tidal_album, $distance_tolerance = 3)
+    function submit_isrc_obj(string $album_mbid, Tidal\elements\Album $tidal_album, int $distance_tolerance = 3): array
     {
         $release = $this->mb->getrelease($album_mbid, 'recordings', true);
         $isrc = [];
@@ -92,7 +91,7 @@ class TIDAL_to_musicbrainz
      * @throws TIDAL_to_musicbrainzException
      * @throws musicbrainz\exceptions\MusicBrainzErrorException
      */
-    public function identify_track(Track $track, bool $strict_name = false): array
+    public function identify_track(Tidal\elements\Track $track, bool $strict_name = false): array
     {
         if(!empty($track->isrc))
         {

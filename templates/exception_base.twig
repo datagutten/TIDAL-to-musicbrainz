@@ -1,0 +1,12 @@
+{% if e %}
+    {{ e.getMessage }}
+    {% if show_trace|default %}
+        <pre>{{ e.getTraceAsString }}</pre>
+    {% endif %}
+    {% if e.getPrevious %}
+        {{ e.getPrevious.getMessage }}
+        {% if show_trace|default %}
+            <pre>{{ e.getPrevious.getTraceAsString }}</pre>
+        {% endif %}
+    {% endif %}
+{% endif %}

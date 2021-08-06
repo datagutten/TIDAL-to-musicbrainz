@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ title|default('MusicBrainz utils') }}</title>
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+<div class="nav_bar">
+    <ul class="toc">
+        {% block nav_bar %} {% endblock %}
+    </ul>
+</div>
+<br>
+<hr>
+{% block content %} {% endblock %}
+</body>
+</html>

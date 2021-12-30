@@ -31,7 +31,7 @@ class TIDALSeed
         ]);
 
         $seed->label(['name' => self::parse_label($album['copyright'])]);
-        $seed->url(['url' => $album['url'], 'link_type' => URL::stream_for_free]);
+        $seed->url(['url' => $album['url'], 'link_type' => 980]);
 
         $seed->artists = self::artists($album->artists);
 

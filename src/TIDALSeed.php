@@ -4,9 +4,7 @@
 namespace datagutten\tidal_musicbrainz;
 
 
-use datagutten\musicbrainz\objects\Recording;
 use datagutten\musicbrainz\seed;
-use datagutten\musicbrainz\seed\URL;
 use datagutten\Tidal;
 use DateTime;
 
@@ -43,10 +41,10 @@ class TIDALSeed
 
     /**
      * @param Tidal\elements\Track $track
-     * @param ?Recording $mb_recording
+     * @param ?seed\Track $mb_recording
      * @return seed\Track
      */
-    public static function seed_track(Tidal\elements\Track $track, Recording $mb_recording = null): seed\Track
+    public static function seed_track(Tidal\elements\Track $track, seed\Track $mb_recording = null): seed\Track
     {
         $seed_track = new seed\Track([
             'name' => $track->title,

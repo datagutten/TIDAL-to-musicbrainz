@@ -41,17 +41,17 @@ class TIDAL_to_musicbrainz
      */
     function submit_isrc_obj(string $album_mbid, Tidal\elements\Album $tidal_album, int $distance_tolerance = 3): array
     {
-        $release = $this->mb->getrelease($album_mbid, 'recordings', true);
+        $release = $this->mb->releaseFromMBID($album_mbid, ['recordings']);
         $isrc = [];
-        foreach ($release['media'] as $medium)
+        foreach ($release->mediums as $medium)
         {
-            foreach ($medium['tracks'] as $track)
+            foreach ($medium->tracks as $track)
             {
-                $tidal_track = $tidal_album->get_track($track['position'], $medium['position']);
+                $tidal_track = $tidal_album->get_track($track->number, $medium->position);
                 if(empty($tidal_track->isrc))
                     continue;
                 $check_tidal = mb_strtolower($tidal_track->title);
-                $check_mb = mb_strtolower($track['title']);
+                $check_mb = mb_strtolower($track->title);
                 $distance = levenshtein($check_mb, $check_tidal);
 
                 if ($check_tidal !== $check_mb && $distance>$distance_tolerance)
@@ -60,12 +60,12 @@ class TIDAL_to_musicbrainz
                         $check_tidal, $check_mb, $distance);
                     throw new TIDAL_to_musicbrainzException($msg);
                 }
-                $isrc[$track['recording']['id']] = $tidal_track->isrc;
+                $isrc[$track->id] = $tidal_track->isrc;
             }
         }
 
         $isrc_list = musicbrainz\musicbrainz::build_isrc_list_array($isrc);
-        return $this->mb->send_isrc_list($isrc_list, 'datagutten/tidal-to-musicbrainz-'.$this->version);
+        return $this->mb->send_isrc_list($isrc_list, 'ISRC from TIDAL');
     }
 
     /**

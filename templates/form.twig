@@ -1,0 +1,20 @@
+{% extends 'base.twig' %}
+{% block content %}
+    <form method="post" action="{{ action }}">
+        <input type="submit" value="Seed">
+        <fieldset>
+            {% for key, value in fields %}
+                <label for="{{ key }}">{{ key }}</label>
+                <input type="text" name="{{ key }}" value="{{ value }}" id="{{ key }}">
+                <br/><br/>
+            {% endfor %}
+            <label>
+                Redirect URI
+                <input type="text" name="redirect_uri" value="{{ redirect_uri }}" readonly="readonly"/>
+            </label>
+
+            <input type="submit" value="Seed">
+        </fieldset>
+    </form>
+    <pre>{{ info }}</pre>
+{% endblock %}

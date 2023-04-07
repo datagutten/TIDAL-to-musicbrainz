@@ -2,7 +2,8 @@
 $start = microtime(true);
 ini_set('display_errors', true);
 
-require __DIR__ . '/../vendor/autoload.php';
+if (!class_exists('\datagutten\tidal_musicbrainz\TIDAL_to_musicbrainz'))
+    require __DIR__ . '/../vendor/autoload.php';
 
 
 use datagutten\musicbrainz;

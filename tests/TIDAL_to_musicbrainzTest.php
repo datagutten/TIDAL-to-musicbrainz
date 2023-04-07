@@ -10,9 +10,10 @@ class TIDAL_to_musicbrainzTest extends TestCase
     public function testIdentify_track()
     {
         $tidal = new datagutten\Tidal\Tidal();
-        $track = $tidal->track('https://tidal.com/browse/track/41093398');
+        $track = $tidal->track('https://tidal.com/browse/track/274707585');
         $tidal_to_mb = new TIDAL_to_musicbrainz();
-        /** @var Recording $recording */
+
+        /** @var datagutten\musicbrainz\seed\Track $recording */
         list($recording, $source) = $tidal_to_mb->identify_track($track);
         $this->assertEquals('Nonsens', $recording->title);
     }

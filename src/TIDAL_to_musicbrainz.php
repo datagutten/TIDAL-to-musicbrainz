@@ -44,7 +44,6 @@ class TIDAL_to_musicbrainz
      * @param Tidal\elements\Album $tidal_album Tidal album object
      * @param int $distance_tolerance Levenshtein distance tolerance for track titles
      * @return array Response from MusicBrainz
-     * @throws TIDAL_to_musicbrainzException
      * @throws musicbrainz\exceptions\MusicBrainzException
      */
     function submit_isrc_obj(string $album_mbid, Tidal\elements\Album $tidal_album, int $distance_tolerance = 3): array
@@ -56,19 +55,18 @@ class TIDAL_to_musicbrainz
             foreach ($medium->tracks as $track)
             {
                 $tidal_track = $tidal_album->get_track($track->number, $medium->position);
-                if(empty($tidal_track->isrc))
+                if (empty($tidal_track->isrc))
                     continue;
-                $check_tidal = mb_strtolower($tidal_track->title);
-                $check_mb = mb_strtolower($track->title);
-                $distance = levenshtein($check_mb, $check_tidal);
 
-                if ($check_tidal !== $check_mb && $distance>$distance_tolerance)
+                $match = Utils::track_match('', $tidal_track->title, '', $track->title, $distance_tolerance);
+                if ($match)
                 {
-                    $msg = sprintf("Titles does not match:\nTIDAL: %s\nMusicBrainz: %s (Levenshtein distance %d)\n",
-                        $check_tidal, $check_mb, $distance);
-                    throw new TIDAL_to_musicbrainzException($msg);
+                    echo "Match {$track->id}<br />\n";
+                    $isrc[$track->id] = $tidal_track->isrc;
                 }
-                $isrc[$track->id] = $tidal_track->isrc;
+                else
+                    printf("Titles does not match:\nTIDAL: %s\nMusicBrainz: %s\n\n",
+                        $tidal_track->title, $track->title);
             }
         }
 

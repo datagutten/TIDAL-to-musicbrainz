@@ -7,7 +7,8 @@ use datagutten\tidal_musicbrainz;
 use datagutten\tidal_musicbrainz\TIDAL_to_musicbrainz;
 
 require 'vendor/autoload.php';
-$tidal_to_mb = new TIDAL_to_musicbrainz();
+$config = require __DIR__ . '/config.php';
+$tidal_to_mb = new TIDAL_to_musicbrainz($config);
 
 if (php_sapi_name() == 'cli')
 {
